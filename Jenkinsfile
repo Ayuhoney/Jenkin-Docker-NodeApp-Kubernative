@@ -49,5 +49,11 @@ pipeline {
                 }
             }
         }
+
+        stage("Build Image") {
+           steps {
+                sh 'kubectl apply -f '
+            }
+        }
     }
 }
