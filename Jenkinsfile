@@ -37,19 +37,6 @@ pipeline {
             }
         }
         
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    def kubeConfig = readFile "${env.HOME}/.kube/config" 
-                    
-                    sh """
-                        export KUBECONFIG="${env.HOME}/.kube/config"
-                        kubectl set image deployment/my-node-app my-node-app=ayushrudra/my-node-app:1.0 --record
-                    """
-                }
-            }
-        }
-
         stage("Deploy to Kubernetes") {
            steps {
                 sh 'kubectl apply -f kubernative-compose.yaml'
