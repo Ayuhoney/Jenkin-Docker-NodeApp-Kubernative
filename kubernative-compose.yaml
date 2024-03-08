@@ -29,5 +29,5 @@ spec:
   ports:
     - protocol: TCP
       port: 5500
-      targetPort: 5500           
-      nodePort: 31000 
+      targetPort: 5500
+      nodePort: 31000
