@@ -43,8 +43,9 @@ pipeline {
         stage("Deploy to Kubernetes") {
             steps {
                 script {
+                    // Use sudo to switch to the 'ayush' user before deploying to Kubernetes
                     withCredentials([file(credentialsId: 'kuber', variable: 'KUBECONFIG')]) {
-                        sh 'kubectl apply -f kubernative-compose.yaml'
+                        sh 'sudo -u ayush kubectl apply -f kubernative-compose.yaml'
                     }
                 }
             }
