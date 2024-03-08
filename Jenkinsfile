@@ -1,7 +1,10 @@
 pipeline {
     agent any
+    environment {
+        KUBECONFIG = credentials('kubeconfig-creds')
+    }
     stages {
-        stage("checkout") {
+        stage("Checkout") {
             steps {
                 checkout scm
             }
@@ -29,7 +32,7 @@ pipeline {
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
-                    sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                    sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
                     sh 'docker tag my-node-app:1.0 ayushrudra/my-node-app:1.0'
                     sh 'docker push ayushrudra/my-node-app:1.0'
                     sh 'docker logout'
@@ -40,7 +43,9 @@ pipeline {
         stage("Deploy to Kubernetes") {
             steps {
                 script {
-                    sh 'kubectl apply -f kubernative-compose.yaml --validate=false'
+                    withCredentials([file(credentialsId: 'kubeconfig-creds', variable: 'KUBECONFIG')]) {
+                        sh 'kubectl apply -f kubernative-compose.yaml'
+                    }
                 }
             }
         }
