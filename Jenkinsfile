@@ -9,7 +9,7 @@ pipeline {
 
         stage("Test") {
             steps {
-                sh 'sudo npm install'
+                sh 'npm install'
                 sh 'npm test'
             }
         }
@@ -38,8 +38,10 @@ pipeline {
         }
         
         stage("Deploy to Kubernetes") {
-           steps {
-                sh 'kubectl apply -f kubernative-compose.yaml'
+            steps {
+                script {
+                    sh 'kubectl apply -f kubernative-compose.yaml'
+                }
             }
         }
     }
