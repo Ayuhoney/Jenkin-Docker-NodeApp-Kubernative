@@ -40,7 +40,7 @@ pipeline {
         stage("Deploy to Kubernetes") {
             steps {
                 script {
-                    sh 'kubectl apply -f kubernative-compose.yaml'
+                    sh 'kubectl apply -f kubernative-compose.yaml --validate=false'
                 }
             }
         }
