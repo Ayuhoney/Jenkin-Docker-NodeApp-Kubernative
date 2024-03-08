@@ -43,7 +43,7 @@ pipeline {
         stage("Deploy to Kubernetes") {
             steps {
                 script {
-                    withCredentials([file(credentialsId: 'kubeconfig-creds', variable: 'KUBECONFIG')]) {
+                    withCredentials([file(credentialsId: 'kuber', variable: 'KUBECONFIG')]) {
                         sh 'kubectl apply -f kubernative-compose.yaml'
                     }
                 }
